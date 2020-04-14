@@ -39,10 +39,11 @@ public class Game implements GameInterface {
         String move = input.next().toUpperCase();
         MoveChecker checker = new MoveChecker(move, this.board);
         boolean validMove = checker.validMove();
-        if (!validMove)
+        if (!validMove) {
+            System.out.println("Invalid input!");
             getMove(player);
-        System.out.println(validMove);
-        return null;
+        }
+        return checker.getColRow();
     }
 
     public int[] getAiMove(int player) {

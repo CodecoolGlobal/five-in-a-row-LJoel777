@@ -45,11 +45,22 @@ public class MoveChecker {
                 col = Integer.parseInt(String.valueOf(Arrays.copyOfRange(input, 1, input.length)));
             else
                 col = Integer.parseInt(String.valueOf(input[1]));
-            return col-1;
+            return col - 1;
         } catch (NumberFormatException e) {
             System.out.println("Invalid input!");
             return -1;
         }
+    }
+
+    public int[] getColRow() {
+        char[] input = move.toCharArray();
+        int col;
+        int row = input[0];
+        if (input.length > 2)
+            col = Integer.parseInt(String.valueOf(Arrays.copyOfRange(input, 1, input.length)));
+        else
+            col = Integer.parseInt(String.valueOf(input[1]));
+        return new int[]{row, col};
     }
 
     public boolean validMove() {
@@ -58,7 +69,7 @@ public class MoveChecker {
         ArrayList<Integer> validCols = validCols();
         int col = colToInt();
         Map<Character, Integer> validRows = validRows();
-        if ((validRows.containsKey(input[0])) && (col > 0 && validCols.contains(col)))
+        if ((validRows.containsKey(input[0])) && (col >= 0 && validCols.contains(col)))
             valid = true;
         return valid;
     }
