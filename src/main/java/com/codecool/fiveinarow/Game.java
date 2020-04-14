@@ -6,6 +6,9 @@ import java.util.Scanner;
 public class Game implements GameInterface {
 
     private int[][] board;
+    private String filler;
+    private String playerOneMark;
+    private String playerTwoMark;
 
     public Game(int nRows, int nCols) {
         board = new int[nRows][nCols];
@@ -14,6 +17,9 @@ public class Game implements GameInterface {
                 row[col] = 0;
             }
         }
+        filler = ".";
+        playerOneMark = "X";
+        playerTwoMark = "O";
     }
 
     @Override
@@ -44,6 +50,9 @@ public class Game implements GameInterface {
     }
 
     public void mark(int player, int row, int col) {
+        if (this.board[row][col] == 0) {
+            this.board[row][col] = player;
+        }
     }
 
     public boolean hasWon(int player, int howMany) {
@@ -55,6 +64,31 @@ public class Game implements GameInterface {
     }
 
     public void printBoard() {
+        String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        System.out.print(" ");
+        for (int i = 0; i < this.board[0].length; i++) {
+            System.out.print("  ");
+            System.out.print(i + 1);
+        }
+        System.out.print("\n");
+        for (int i = 0; i < this.board.length; i++) {
+            System.out.print(abc.charAt(i));
+            for (int j = 0; j < this.board[i].length; j++) {
+                System.out.print("  ");
+                switch (this.board[i][j]) {
+                    case 0:
+                        System.out.print(this.filler);
+                        break;
+                    case 1:
+                        System.out.print(this.playerOneMark);
+                        break;
+                    case 2:
+                        System.out.print(this.playerTwoMark);
+                        break;
+                }
+            }
+            System.out.print("\n");
+        }
     }
 
     public void printResult(int player) {
