@@ -54,18 +54,22 @@ public class MoveChecker {
 
     public int[] getColRow() {
         char[] input = move.toCharArray();
+        Map<Character, Integer> validRows = validRows();
         int col;
-        int row = input[0];
+        int row = validRows.get(input[0]);
         if (input.length > 2)
             col = Integer.parseInt(String.valueOf(Arrays.copyOfRange(input, 1, input.length)));
         else
             col = Integer.parseInt(String.valueOf(input[1]));
-        return new int[]{row, col};
+        return new int[]{row, col - 1};
     }
 
     public boolean validMove() {
         char[] input = move.toCharArray();
         boolean valid = false;
+        if (input.length <= 1) {
+            return false;
+        }
         ArrayList<Integer> validCols = validCols();
         int col = colToInt();
         Map<Character, Integer> validRows = validRows();
