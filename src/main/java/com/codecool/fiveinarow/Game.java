@@ -1,22 +1,43 @@
 package com.codecool.fiveinarow;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class Game implements GameInterface {
 
     private int[][] board;
 
     public Game(int nRows, int nCols) {
+        board = new int[nRows][nCols];
+        for (int[] row : board) {
+            for (int col : row) {
+                row[col] = 0;
+            }
+        }
     }
 
+    @Override
     public int[][] getBoard() {
         return board;
     }
 
+    @Override
     public void setBoard(int[][] board) {
         this.board = board;
     }
 
+    @Override
     public int[] getMove(int player) {
-        return null;
+        Scanner input = new Scanner(System.in);
+        System.out.println("Player" + player + " turn: ");
+        String move = input.next().toUpperCase();
+        MoveChecker checker = new MoveChecker(move, this.board);
+        boolean validMove = checker.validMove();
+        if (!validMove) {
+            System.out.println("Invalid input!");
+            getMove(player);
+        }
+        return checker.getColRow();
     }
 
     public int[] getAiMove(int player) {
@@ -24,6 +45,7 @@ public class Game implements GameInterface {
     }
 
     public void mark(int player, int row, int col) {
+
     }
 
     public boolean hasWon(int player, int howMany) {
