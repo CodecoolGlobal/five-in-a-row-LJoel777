@@ -34,7 +34,7 @@ public class Game implements GameInterface {
     @Override
     public int[] getMove(int player) {
         Scanner input = new Scanner(System.in);
-        System.out.println("Player" + player + " turn: ");
+        System.out.println("Player" + player + "'s turn: ");
         String move = input.next().toUpperCase();
         MoveChecker checker = new MoveChecker(move, this.board);
         boolean validMove = checker.validMove();
@@ -64,6 +64,23 @@ public class Game implements GameInterface {
     }
 
     public boolean isFull() {
+        boolean[] booleanArray = new boolean[this.board.length];
+        for (int i = 0; i < this.board.length; i++) {
+            for (int boardCell : this.board[i]) {
+                if (boardCell == 0) {
+                    break;
+                } else {
+                    booleanArray[i] = true;
+                }
+            }
+        }
+        for (boolean element : booleanArray) {
+            if (!element) {
+                break;
+            } else {
+                return true;
+            }
+        }
         return false;
     }
 
