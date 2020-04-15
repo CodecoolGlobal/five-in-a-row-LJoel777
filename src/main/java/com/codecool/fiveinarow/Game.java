@@ -95,10 +95,12 @@ public class Game implements GameInterface {
 
     @Override
     public boolean isFull() {
+        boolean isFull = false;
         boolean[] booleanArray = new boolean[this.board.length];
         for (int i = 0; i < this.board.length; i++) {
             for (int boardCell : this.board[i]) {
                 if (boardCell == 0) {
+                    booleanArray[i] = false;
                     break;
                 } else {
                     booleanArray[i] = true;
@@ -107,12 +109,13 @@ public class Game implements GameInterface {
         }
         for (boolean element : booleanArray) {
             if (!element) {
+                isFull = false;
                 break;
             } else {
-                return true;
+                isFull = true;
             }
         }
-        return false;
+        return isFull;
     }
 
     @Override
@@ -163,10 +166,8 @@ public class Game implements GameInterface {
             else
                 player = 1;
             int[] move = getMove(player);
-            System.out.println("\n\n\n\n\n\n");
             mark(player, move[0], move[1]);
             System.out.println(hasWon(player, howMany));
-            count++;
-        } while (count <= 10);
+        } while (!isFull() || !hasWon(player, howMany));
     }
 }
