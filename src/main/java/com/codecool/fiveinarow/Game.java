@@ -52,10 +52,9 @@ public class Game implements GameInterface {
 
     public int[] getAiMove(int player) {
         String randomNum = String.valueOf(Randomize.generate(0, 10));
-        char randomABC = (char) Randomize.generate(65, 65+this.board.length-1);
+        char randomABC = (char) Randomize.generate(65, 65 + this.board.length - 1);
         String move = randomABC + randomNum;
-        System.out.println(move);
-        MoveChecker checker = new MoveChecker(move, this.board ,player);
+        MoveChecker checker = new MoveChecker(move, this.board, player);
         boolean validMove = checker.validMove();
         if (!validMove) {
             getAiMove(player);
@@ -135,6 +134,10 @@ public class Game implements GameInterface {
     }
 
     public void printResult(int player) {
+        if (player == 0)
+            System.out.println("It's tie!");
+        else
+            System.out.println(player + "won!");
     }
 
     public void enableAi(int player) {
@@ -147,22 +150,35 @@ public class Game implements GameInterface {
         if (gameMode == 1) {
             do {
                 printBoard();
+                if (isFull()) {
+                    printResult(0);
+                    break;
+                }
                 int[] move = getMove(player);
                 mark(player, move[0], move[1]);
                 if (player == 1)
                     player = 2;
                 else
                     player = 1;
-            } while (!isFull() || !hasWon(player, howMany));
+            } while (!hasWon(player, howMany));
         } else {
             do {
                 printBoard();
+                if (isFull()) {
+                    printResult(0);
+                    break;
+                }
                 int[] move = getMove(player);
                 mark(player, move[0], move[1]);
+                if (isFull()) {
+                    printResult(0);
+                    break;
+                }
                 player = 2;
                 enableAi(player);
                 player = 1;
-            } while (!isFull() || !hasWon(player, howMany));
+            } while (!hasWon(player, howMany));
         }
+        printResult(player);
     }
 }
