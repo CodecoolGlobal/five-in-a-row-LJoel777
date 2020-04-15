@@ -23,7 +23,7 @@ public class WinCondition {
     }
 
     public boolean hasWonVertically() {
-        int [][] transposedBoard = matrixTranspose(board);
+        int[][] transposedBoard = matrixTranspose(board);
         return winChecker(transposedBoard);
     }
 
@@ -55,7 +55,7 @@ public class WinCondition {
 
     public int[][] matrixTranspose(int[][] oldBoard) {
         int[][] transposedBoard = new int[oldBoard[0].length][oldBoard.length];
-        for (int i = 0; i < oldBoard.length; i++)  {
+        for (int i = 0; i < oldBoard.length; i++) {
             for (int j = 0; j < oldBoard[0].length; j++) {
                 transposedBoard[j][i] = oldBoard[i][j];
             }
@@ -65,7 +65,7 @@ public class WinCondition {
 
     public boolean hasWonDiagonally() {
         boolean[] booleanListForDiagonals = new boolean[board.length - (howMany - 1)];
-        for (int i = (howMany - 1) ; i < board.length; i++) {
+        for (int i = (howMany - 1); i < board.length; i++) {
             int[][] boardOfDiagonals = new int[4][i + 1];
             int[] rowTopLeft = new int[i + 1];
             int[] rowTopRight = new int[i + 1];

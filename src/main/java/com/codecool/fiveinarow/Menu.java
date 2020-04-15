@@ -4,15 +4,17 @@ import java.util.DoubleSummaryStatistics;
 import java.util.Scanner;
 
 public class Menu {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+        clear();
         int size = checkSize();
         int howMany = howManny();
         int gameMode = gameMode();
-        Game gomoku = new Game(3, 3);
+        Game gomoku = new Game(size, size);
         gomoku.play(howMany, gameMode);
     }
 
     public static int checkSize() {
+        clear();
         Scanner input = new Scanner(System.in);
         System.out.println("Chose a board size (10, 15, 19): ");
         String size = input.next().toUpperCase();
@@ -25,6 +27,7 @@ public class Menu {
     }
 
     public static int howManny() {
+        clear();
         Scanner input = new Scanner(System.in);
         System.out.println("How many mark needed to win? (3, 5)");
         String size = input.next().toUpperCase();
@@ -38,6 +41,7 @@ public class Menu {
     }
 
     public static int gameMode() {
+        clear();
         Scanner input = new Scanner(System.in);
         System.out.println("Chose game mode! (HUMAN VS HUMAN: 1, AI VS HUMAN: 2)");
         String gameMode = input.next().toUpperCase();
@@ -48,5 +52,9 @@ public class Menu {
         }
         System.out.println("Please try again! (HUMAN VS HUMAN: 1, AI VS HUMAN: 2)");
         return gameMode();
+    }
+
+    public static void clear() {
+        System.out.print("\033[H\033[2J");
     }
 }

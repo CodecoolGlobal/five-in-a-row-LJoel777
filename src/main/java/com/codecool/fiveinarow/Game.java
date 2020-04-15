@@ -1,6 +1,7 @@
 package com.codecool.fiveinarow;
 
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Game implements GameInterface {
 
@@ -8,6 +9,8 @@ public class Game implements GameInterface {
     private String filler;
     private String playerOneMark;
     private String playerTwoMark;
+    private int player = 2;
+    public static final String ANSI_BRIGHT_RED = "\u001B[91m";
 
     public Game(int nRows, int nCols) {
         board = new int[nRows][nCols];
@@ -16,9 +19,9 @@ public class Game implements GameInterface {
                 row[col] = 0;
             }
         }
-        filler = ".";
-        playerOneMark = "X";
-        playerTwoMark = "O";
+        filler = "\033[34;1m.\033[0m";
+        playerOneMark = "\033[31;1mX\033[0m";
+        playerTwoMark = "\033[33;1;2mO\033[0m";
     }
 
     @Override
@@ -34,7 +37,7 @@ public class Game implements GameInterface {
     @Override
     public int[] getMove(int player) {
         Scanner input = new Scanner(System.in);
-        System.out.println("Player" + player + "'s turn: ");
+        System.out.println("\n" + "Player" + player + "'s turn: ");
         String move = input.next().toUpperCase();
         if (move.equals("Q") || move.equals("QUIT"))
             System.exit(0);
@@ -50,6 +53,7 @@ public class Game implements GameInterface {
         return checker.getColRow();
     }
 
+    @Override
     public int[] getAiMove(int player) {
         String randomNum = String.valueOf(Randomize.generate(0, 10));
         char randomABC = (char) Randomize.generate(65, 65 + this.board.length - 1);
@@ -71,6 +75,7 @@ public class Game implements GameInterface {
         }
     }
 
+    @Override
     public boolean hasWon(int player, int howMany) {
         WinCondition winCondition = new WinCondition(player, howMany, this.board);
         return winCondition.hasWonHorizontally() || winCondition.hasWonVertically() || winCondition.hasWonDiagonally();
@@ -133,52 +138,76 @@ public class Game implements GameInterface {
         }
     }
 
+    @Override
     public void printResult(int player) {
         if (player == 0)
             System.out.println("It's tie!");
         else
-            System.out.println(player + "won!");
+            System.out.println("Player " + player + " won!");
     }
 
+    @Override
     public void enableAi(int player) {
         int[] move = getAiMove(player);
         mark(player, move[0], move[1]);
     }
 
-    public void play(int howMany, int gameMode) {
-        int player = 1;
-        if (gameMode == 1) {
-            do {
-                printBoard();
-                if (isFull()) {
-                    printResult(0);
-                    break;
-                }
-                int[] move = getMove(player);
-                mark(player, move[0], move[1]);
-                if (player == 1)
-                    player = 2;
-                else
-                    player = 1;
-            } while (!hasWon(player, howMany));
-        } else {
-            do {
-                printBoard();
-                if (isFull()) {
-                    printResult(0);
-                    break;
-                }
-                int[] move = getMove(player);
-                mark(player, move[0], move[1]);
-                if (isFull()) {
-                    printResult(0);
-                    break;
-                }
-                player = 2;
-                enableAi(player);
-                player = 1;
-            } while (!hasWon(player, howMany));
+    @Override
+    public void play(int howMany, int gameMode) throws InterruptedException {
+        if (gameMode == 1)
+            this.humanVsHuman(howMany);
+        else
+            this.AiVsHuman(howMany);
+    }
+
+    public void humanVsHuman(int howMany) {
+        while (!hasWon(player, howMany)) {
+            clear();
+            this.changePlayer();
+            printBoard();
+            int[] move = getMove(player);
+            mark(player, move[0], move[1]);
+            if (isFull()) {
+                printResult(0);
+                break;
+            }
         }
+        clear();
+        printBoard();
         printResult(player);
+    }
+
+    public void AiVsHuman(int howMany) throws InterruptedException {
+        while (!hasWon(player, howMany)) {
+            clear();
+            this.changePlayer();
+            if (player == 1) {
+                printBoard();
+                int[] move = getMove(player);
+                mark(player, move[0], move[1]);
+            } else {
+                printBoard();
+                TimeUnit.SECONDS.sleep(1);
+                enableAi(player);
+            }
+            if (isFull()) {
+                printResult(0);
+                break;
+            }
+        }
+        clear();
+        printBoard();
+        printResult(player);
+    }
+
+    public void changePlayer() {
+        if (this.player == 1)
+            player = 2;
+        else
+            player = 1;
+    }
+
+    public void clear() {
+        System.out.print("\033[H\033[2J");
     }
 }
