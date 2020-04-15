@@ -5,10 +5,12 @@ import java.util.*;
 public class MoveChecker {
     static int[][] board;
     static String move;
+    static int player;
 
-    public MoveChecker(String userMove, int[][] boardNew) {
+    public MoveChecker(String userMove, int[][] boardNew, int p) {
         board = boardNew;
         move = userMove;
+        player = p;
     }
 
     public static ArrayList<Integer> validCols() {
@@ -47,10 +49,10 @@ public class MoveChecker {
                 col = Integer.parseInt(String.valueOf(input[1]));
             return col - 1;
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input!");
+            if (player == 1)
+                System.out.println("Invalid input!");
             return -1;
-        }
-    }
+        }    }
 
     public int[] getColRow() {
         char[] input = move.toCharArray();
