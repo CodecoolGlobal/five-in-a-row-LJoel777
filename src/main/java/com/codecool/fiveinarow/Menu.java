@@ -18,7 +18,7 @@ public class Menu {
         String size = input.next().toUpperCase();
         if (size.equals("Q") || size.equals("QUIT"))
             System.exit(0);
-        if (size.equals("15") || size.equals("19") || size.equals("10"))
+        if (size.equals("15") || size.equals("19") || size.equals("10") || size.equals("5"))
             return Integer.parseInt(size);
         System.out.println("Invalid size! Please try again! (Valid size: 10, 15, 19)");
         return checkSize();

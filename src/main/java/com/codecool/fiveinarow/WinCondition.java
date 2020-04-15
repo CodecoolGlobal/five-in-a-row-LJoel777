@@ -62,4 +62,33 @@ public class WinCondition {
         }
         return transposedBoard;
     }
+
+    public boolean hasWonDiagonally() {
+        boolean[] booleanListForDiagonals = new boolean[board.length - (howMany - 1)];
+        for (int i = (howMany - 1) ; i < board.length; i++) {
+            int[][] boardOfDiagonals = new int[4][i + 1];
+            int[] rowTopLeft = new int[i + 1];
+            int[] rowTopRight = new int[i + 1];
+            int[] rowBottomLeft = new int[i + 1];
+            int[] rowBottomRight = new int[i + 1];
+
+            for (int j = 0; j < i + 1; j++) {
+                rowTopLeft[j] = board[i - j][j];
+                rowTopRight[j] = board[j][board.length - 1 - (i - j)];
+                rowBottomLeft[j] = board[board.length - 1 - (i - j)][j];
+                rowBottomRight[j] = board[board.length - 1 - j][board.length - 1 - (i - j)];
+            }
+            boardOfDiagonals[0] = rowTopLeft;
+            boardOfDiagonals[1] = rowTopRight;
+            boardOfDiagonals[2] = rowBottomLeft;
+            boardOfDiagonals[3] = rowBottomRight;
+            booleanListForDiagonals[i - (howMany - 1)] = winChecker(boardOfDiagonals);
+        }
+        for (boolean element : booleanListForDiagonals) {
+            if (element) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
