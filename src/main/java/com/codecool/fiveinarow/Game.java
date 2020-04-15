@@ -37,6 +37,8 @@ public class Game implements GameInterface {
         Scanner input = new Scanner(System.in);
         System.out.println("Player" + player + "'s turn: ");
         String move = input.next().toUpperCase();
+        if (move.equals("Q") || move.equals("QUIT"))
+            System.exit(0);
         MoveChecker checker = new MoveChecker(move, this.board);
         boolean validMove = checker.validMove();
         if (!validMove) {
@@ -91,6 +93,7 @@ public class Game implements GameInterface {
         return false;
     }
 
+    @Override
     public boolean isFull() {
         boolean[] booleanArray = new boolean[this.board.length];
         for (int i = 0; i < this.board.length; i++) {
@@ -153,7 +156,6 @@ public class Game implements GameInterface {
 
     public void play(int howMany) {
         int player = 1;
-        int count = 0;
         do {
             printBoard();
             if (player == 1)
