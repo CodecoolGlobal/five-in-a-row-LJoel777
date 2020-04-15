@@ -8,7 +8,7 @@ public class Menu {
         int size = checkSize();
         int howMany = howManny();
         int gameMode = gameMode();
-        Game gomoku = new Game(size, size);
+        Game gomoku = new Game(3, 3);
         gomoku.play(howMany, gameMode);
     }
 
