@@ -1,6 +1,7 @@
 package com.codecool.fiveinarow;
 
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Game implements GameInterface {
 
@@ -60,6 +61,33 @@ public class Game implements GameInterface {
     }
 
     public boolean hasWon(int player, int howMany) {
+        int[] fullArray = new int[howMany];
+        for (int i = 0; i < howMany; i++) {
+            fullArray[i] = player;
+        }
+        //horizontally
+        for (int[] row : this.board) {
+            int[] winArray = new int[howMany];
+            int counter = 0;
+            for (int cell : row) {
+                if (cell == player) {
+                    winArray[counter] = player;
+                    counter += 1;
+                    if (Arrays.equals(winArray, fullArray)) {
+                        return true;
+                    }
+                } else {
+                    counter = 0;
+                    for (int i = 0; i < winArray.length; i++) {
+                        if (winArray[i] == player) {
+                            winArray[i] = 0;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -89,14 +117,18 @@ public class Game implements GameInterface {
         String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         System.out.print(" ");
         for (int i = 0; i < this.board[0].length; i++) {
-            System.out.print("  ");
+            if (i + 1 < 10) {
+                System.out.print("   ");
+            } else {
+                System.out.print("  ");
+            }
             System.out.print(i + 1);
         }
         System.out.print("\n");
         for (int i = 0; i < this.board.length; i++) {
             System.out.print(abc.charAt(i));
             for (int j = 0; j < this.board[i].length; j++) {
-                System.out.print("  ");
+                System.out.print("   ");
                 switch (this.board[i][j]) {
                     case 0:
                         System.out.print(this.filler);
@@ -131,6 +163,7 @@ public class Game implements GameInterface {
             int[] move = getMove(player);
             System.out.println("\n\n\n\n\n\n");
             mark(player, move[0], move[1]);
+            System.out.println(hasWon(player, howMany));
             count++;
         } while (count <= 10);
     }
