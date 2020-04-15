@@ -1,6 +1,5 @@
 package com.codecool.fiveinarow;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Game implements GameInterface {
@@ -42,6 +41,9 @@ public class Game implements GameInterface {
         if (!validMove) {
             System.out.println("Invalid input!");
             getMove(player);
+        } else if (this.board[checker.getColRow()[0]][checker.getColRow()[1]] != 0) {
+            System.out.println("Invalid input!");
+            getMove(player);
         }
         return checker.getColRow();
     }
@@ -50,6 +52,7 @@ public class Game implements GameInterface {
         return null;
     }
 
+    @Override
     public void mark(int player, int row, int col) {
         if (this.board[row][col] == 0) {
             this.board[row][col] = player;
@@ -64,6 +67,7 @@ public class Game implements GameInterface {
         return false;
     }
 
+    @Override
     public void printBoard() {
         String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         System.out.print(" ");
@@ -99,5 +103,18 @@ public class Game implements GameInterface {
     }
 
     public void play(int howMany) {
+        int player = 1;
+        int count = 0;
+        do {
+            printBoard();
+            if (player == 1)
+                player = 2;
+            else
+                player = 1;
+            int[] move = getMove(player);
+            System.out.println("\n\n\n\n\n\n");
+            mark(player, move[0], move[1]);
+            count++;
+        } while (count <= 10);
     }
 }
