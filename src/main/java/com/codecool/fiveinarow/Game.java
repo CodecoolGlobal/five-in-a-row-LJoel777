@@ -1,6 +1,7 @@
 package com.codecool.fiveinarow;
 
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Game implements GameInterface {
 
@@ -62,6 +63,33 @@ public class Game implements GameInterface {
     }
 
     public boolean hasWon(int player, int howMany) {
+        int[] fullArray = new int[howMany];
+        for (int i = 0; i < howMany; i++) {
+            fullArray[i] = player;
+        }
+        //horizontally
+        for (int[] row : this.board) {
+            int[] winArray = new int[howMany];
+            int counter = 0;
+            for (int cell : row) {
+                if (cell == player) {
+                    winArray[counter] = player;
+                    counter += 1;
+                    if (Arrays.equals(winArray, fullArray)) {
+                        return true;
+                    }
+                } else {
+                    counter = 0;
+                    for (int i = 0; i < winArray.length; i++) {
+                        if (winArray[i] == player) {
+                            winArray[i] = 0;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -137,6 +165,8 @@ public class Game implements GameInterface {
             int[] move = getMove(player);
             System.out.println("\n\n\n\n\n\n");
             mark(player, move[0], move[1]);
-        } while (isFull());
+            System.out.println(hasWon(player, howMany));
+            count++;
+        } while (count <= 10);
     }
 }
