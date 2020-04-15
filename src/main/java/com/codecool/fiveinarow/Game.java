@@ -63,7 +63,7 @@ public class Game implements GameInterface {
 
     public boolean hasWon(int player, int howMany) {
         WinCondition winCondition = new WinCondition(player, howMany, this.board);
-        return winCondition.hasWonHorizontally() || winCondition.hasWonVertically();
+        return winCondition.hasWonHorizontally() || winCondition.hasWonVertically() || winCondition.hasWonDiagonally();
     }
 
     @Override
