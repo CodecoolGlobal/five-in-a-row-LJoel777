@@ -36,6 +36,8 @@ public class Game implements GameInterface {
         Scanner input = new Scanner(System.in);
         System.out.println("Player" + player + "'s turn: ");
         String move = input.next().toUpperCase();
+        if (move.equals("Q") || move.equals("QUIT"))
+            System.exit(0);
         MoveChecker checker = new MoveChecker(move, this.board);
         boolean validMove = checker.validMove();
         if (!validMove) {
@@ -63,6 +65,7 @@ public class Game implements GameInterface {
         return false;
     }
 
+    @Override
     public boolean isFull() {
         boolean[] booleanArray = new boolean[this.board.length];
         for (int i = 0; i < this.board.length; i++) {
@@ -89,14 +92,18 @@ public class Game implements GameInterface {
         String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         System.out.print(" ");
         for (int i = 0; i < this.board[0].length; i++) {
-            System.out.print("  ");
+            if (i + 1 < 10) {
+                System.out.print("   ");
+            } else {
+                System.out.print("  ");
+            }
             System.out.print(i + 1);
         }
         System.out.print("\n");
         for (int i = 0; i < this.board.length; i++) {
             System.out.print(abc.charAt(i));
             for (int j = 0; j < this.board[i].length; j++) {
-                System.out.print("  ");
+                System.out.print("   ");
                 switch (this.board[i][j]) {
                     case 0:
                         System.out.print(this.filler);
@@ -121,7 +128,6 @@ public class Game implements GameInterface {
 
     public void play(int howMany) {
         int player = 1;
-        int count = 0;
         do {
             printBoard();
             if (player == 1)
@@ -131,7 +137,6 @@ public class Game implements GameInterface {
             int[] move = getMove(player);
             System.out.println("\n\n\n\n\n\n");
             mark(player, move[0], move[1]);
-            count++;
-        } while (count <= 10);
+        } while (isFull());
     }
 }
