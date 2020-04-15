@@ -38,7 +38,7 @@ public class Game implements GameInterface {
         String move = input.next().toUpperCase();
         if (move.equals("Q") || move.equals("QUIT"))
             System.exit(0);
-        MoveChecker checker = new MoveChecker(move, this.board);
+        MoveChecker checker = new MoveChecker(move, this.board, player);
         boolean validMove = checker.validMove();
         if (!validMove) {
             System.out.println("Invalid input!");
@@ -51,7 +51,18 @@ public class Game implements GameInterface {
     }
 
     public int[] getAiMove(int player) {
-        return null;
+        String randomNum = String.valueOf(Randomize.generate(0, 10));
+        char randomABC = (char) Randomize.generate(65, 65+this.board.length-1);
+        String move = randomABC + randomNum;
+        System.out.println(move);
+        MoveChecker checker = new MoveChecker(move, this.board ,player);
+        boolean validMove = checker.validMove();
+        if (!validMove) {
+            getAiMove(player);
+        } else if (this.board[checker.getColRow()[0]][checker.getColRow()[1]] != 0) {
+            getAiMove(player);
+        }
+        return checker.getColRow();
     }
 
     @Override
@@ -127,19 +138,31 @@ public class Game implements GameInterface {
     }
 
     public void enableAi(int player) {
+        int[] move = getAiMove(player);
+        mark(player, move[0], move[1]);
     }
 
-    public void play(int howMany) {
+    public void play(int howMany, int gameMode) {
         int player = 1;
-        do {
-            printBoard();
-            if (player == 1)
+        if (gameMode == 1) {
+            do {
+                printBoard();
+                int[] move = getMove(player);
+                mark(player, move[0], move[1]);
+                if (player == 1)
+                    player = 2;
+                else
+                    player = 1;
+            } while (!isFull() || !hasWon(player, howMany));
+        } else {
+            do {
+                printBoard();
+                int[] move = getMove(player);
+                mark(player, move[0], move[1]);
                 player = 2;
-            else
+                enableAi(player);
                 player = 1;
-            int[] move = getMove(player);
-            mark(player, move[0], move[1]);
-            System.out.println(hasWon(player, howMany));
-        } while (!isFull() || !hasWon(player, howMany));
+            } while (!isFull() || !hasWon(player, howMany));
+        }
     }
 }

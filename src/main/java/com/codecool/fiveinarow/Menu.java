@@ -1,18 +1,20 @@
 package com.codecool.fiveinarow;
 
+import java.util.DoubleSummaryStatistics;
 import java.util.Scanner;
 
 public class Menu {
     public static void main(String[] args) {
         int size = checkSize();
         int howMany = howManny();
+        int gameMode = gameMode();
         Game gomoku = new Game(size, size);
-        gomoku.play(howMany);
+        gomoku.play(howMany, gameMode);
     }
 
     public static int checkSize() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Choose a board size (10, 15, 19): ");
+        System.out.println("Chose a board size (10, 15, 19): ");
         String size = input.next().toUpperCase();
         if (size.equals("Q") || size.equals("QUIT"))
             System.exit(0);
@@ -33,5 +35,18 @@ public class Menu {
         }
         System.out.println("Please try again! (3, 5)");
         return howManny();
+    }
+
+    public static int gameMode() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Chose game mode! (HUMAN VS HUMAN: 1, AI VS HUMAN: 2)");
+        String gameMode = input.next().toUpperCase();
+        if (gameMode.equals("Q") || gameMode.equals("QUIT"))
+            System.exit(0);
+        if (gameMode.equals("1") || gameMode.equals("2")) {
+            return Integer.parseInt(gameMode);
+        }
+        System.out.println("Please try again! (HUMAN VS HUMAN: 1, AI VS HUMAN: 2)");
+        return gameMode();
     }
 }
