@@ -160,7 +160,7 @@ public class Game implements GameInterface {
             this.AiVsHuman(howMany);
     }
 
-    public void humanVsHuman(int howMany) {
+    public void humanVsHuman(int howMany) throws InterruptedException {
         while (!hasWon(player, howMany)) {
             clear();
             this.changePlayer();
@@ -175,6 +175,7 @@ public class Game implements GameInterface {
         clear();
         printBoard();
         printResult(player);
+        restart();
     }
 
     public void AiVsHuman(int howMany) throws InterruptedException {
@@ -198,6 +199,7 @@ public class Game implements GameInterface {
         clear();
         printBoard();
         printResult(player);
+        restart();
     }
 
     public void changePlayer() {
@@ -209,5 +211,19 @@ public class Game implements GameInterface {
 
     public void clear() {
         System.out.print("\033[H\033[2J");
+    }
+
+    public void restart() throws InterruptedException {
+        Scanner input = new Scanner(System.in);
+        System.out.println("\n" + "Do you want to play again? (Yes/No)");
+        String yesOrNo = input.next().toUpperCase();
+        if (yesOrNo.equals("YES") || yesOrNo.equals("Y"))
+            Menu.start();
+        else if (yesOrNo.equals("NO") || yesOrNo.equals("N"))
+            System.exit(0);
+        else {
+            System.out.println("Please write yes or no!");
+            restart();
+        }
     }
 }

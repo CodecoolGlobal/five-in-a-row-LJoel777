@@ -4,7 +4,12 @@ import java.util.DoubleSummaryStatistics;
 import java.util.Scanner;
 
 public class Menu {
+
     public static void main(String[] args) throws InterruptedException {
+        start();
+    }
+
+    public static void start() throws InterruptedException {
         clear();
         int size = checkSize();
         int howMany = howManny();
