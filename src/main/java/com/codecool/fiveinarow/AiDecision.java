@@ -28,12 +28,13 @@ public class AiDecision {
     }
 
     private int[] getCoords(int[][] decisionArray) {
+        int[] coords = new int[2];
         for (int[] elements : decisionArray) {
             if (elements[0] == 0) {
-                return new int[]{elements[1], elements[2]};
+                coords = new int[]{elements[1], elements[2]};
             }
         }
-        return null;
+        return coords;
     }
 
     public int[] verticalCheck(int[] inputArray) {
