@@ -1,5 +1,6 @@
 package com.codecool.fiveinarow;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -54,16 +55,20 @@ public class Game implements GameInterface {
     }
 
     @Override
-    public int[] getAiMove(int player) {
+    public int[] getAiMove(int player, int howMany) {
+        AiDecision aiMoveChecker = new AiDecision(player, howMany, board);
+        if (aiMoveChecker.horizontalCheck() != null) {
+            return aiMoveChecker.horizontalCheck();
+        }
         String randomNum = String.valueOf(Randomize.generate(0, 10));
         char randomABC = (char) Randomize.generate(65, 65 + this.board.length - 1);
         String move = randomABC + randomNum;
         MoveChecker checker = new MoveChecker(move, this.board, player);
         boolean validMove = checker.validMove();
         if (!validMove) {
-            getAiMove(player);
+            getAiMove(player, howMany);
         } else if (this.board[checker.getColRow()[0]][checker.getColRow()[1]] != 0) {
-            getAiMove(player);
+            getAiMove(player, howMany);
         }
         return checker.getColRow();
     }
@@ -147,8 +152,8 @@ public class Game implements GameInterface {
     }
 
     @Override
-    public void enableAi(int player) {
-        int[] move = getAiMove(player);
+    public void enableAi(int player, int howMany) {
+        int[] move = getAiMove(player, howMany);
         mark(player, move[0], move[1]);
     }
 
@@ -189,7 +194,7 @@ public class Game implements GameInterface {
             } else {
                 printBoard();
                 TimeUnit.SECONDS.sleep(1);
-                enableAi(player);
+                enableAi(player, howMany);
             }
             if (isFull()) {
                 printResult(0);

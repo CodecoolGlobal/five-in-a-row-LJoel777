@@ -14,17 +14,19 @@ public class AiDecision {
     }
 
     public int[] horizontalCheck() {
-        int[][][] boardWithCoords = new int[board.length][board[0].length][3];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                boardWithCoords[i][j] = new int[]{board[i][j], i, j};
+        int[][] perArrays = permutation();
+        for (int row = 0; row <= perArrays.length - 1; row++) {
+            int[] array = perArrays[row];
+            int[][][] boardWithCoords = new int[board.length][board[0].length][3];
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[0].length; j++) {
+                    boardWithCoords[i][j] = new int[]{board[i][j], i, j};
+                }
             }
-        }
-        int[][] decisionArray = decisionChecker(boardWithCoords, new int[]{1, 1, 0});
-        if (decisionArray != null) {
-            int[] coords = getCoords(decisionArray);
-            System.out.println(Arrays.toString(coords));
-            return coords;
+            int[][] decisionArray = decisionChecker(boardWithCoords, array);
+            if (decisionArray != null) {
+                return getCoords(decisionArray);
+            }
         }
         return null;
     }
@@ -64,7 +66,6 @@ public class AiDecision {
                     decisionArray[j] = row[i + j][0];
                 }
                 if (Arrays.equals(decisionArray, arrayToCheck)) {
-                    System.out.println(Arrays.deepToString(decisionArrayWithCoords));
                     return decisionArrayWithCoords;
                 }
             }
@@ -72,6 +73,19 @@ public class AiDecision {
         return null;
     }
 
+
+
+    public int[][] permutation() {
+        int[][] permArr = new int[howMany][howMany];
+        for (int j = 0; j <= howMany - 1; j++) {
+            for (int i = 0; i <= howMany - 1; i++) {
+                permArr[j][i] = 1;
+                if (i == j) {
+                    permArr[j][i] = 0;
+                }
+            }
+        }
+        return permArr;
 
     public int[] diagonalCheck() {
         //boolean[] booleanListForDiagonals = new boolean[board.length - (howMany - 1)];
