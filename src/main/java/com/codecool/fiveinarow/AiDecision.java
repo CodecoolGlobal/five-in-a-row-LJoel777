@@ -13,7 +13,7 @@ public class AiDecision {
         this.howMany = howMany;
     }
 
-    public boolean horizontalCheck() {
+    public int[] horizontalCheck() {
         int[][][] boardWithCoords = new int[board.length][board[0].length][3];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
@@ -21,8 +21,12 @@ public class AiDecision {
             }
         }
         int[][] decisionArray = decisionChecker(boardWithCoords, new int[]{1, 1, 0});
-        int[] coords = getCoords(decisionArray);
-        return true;
+        if (decisionArray != null) {
+            int[] coords = getCoords(decisionArray);
+            System.out.println(Arrays.toString(coords));
+            return coords;
+        }
+        return null;
         //return winChecker(board);
     }
 
@@ -32,6 +36,7 @@ public class AiDecision {
                 return new int[]{elements[1], elements[2]};
             }
         }
+        return null;
     }
 
     /*public boolean verticalCheck() {
