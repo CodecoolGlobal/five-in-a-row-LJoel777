@@ -57,12 +57,18 @@ public class Game implements GameInterface {
     @Override
     public int[] getAiMove(int player, int howMany) {
         AiDecision aiMoveChecker = new AiDecision(player, howMany, board);
-        if (aiMoveChecker.horizontalCheck() != null) {
-            return aiMoveChecker.horizontalCheck();
-        } else if (aiMoveChecker.verticalCheck() != null) {
-            return aiMoveChecker.verticalCheck();
-        } else if (aiMoveChecker.diagonalCheck() != null) {
-            return aiMoveChecker.diagonalCheck();
+        for (int i = 1; i < howMany - 1; i++) {
+            int[] arrayToCheck = new int[howMany];
+            for (int j = 0; j < (howMany - i); j++) {
+                arrayToCheck[j] = 1;
+            }
+            if (aiMoveChecker.horizontalCheck(arrayToCheck) != null) {
+                return aiMoveChecker.horizontalCheck(arrayToCheck);
+            } else if (aiMoveChecker.verticalCheck(arrayToCheck) != null) {
+                return aiMoveChecker.verticalCheck(arrayToCheck);
+            } else if (aiMoveChecker.diagonalCheck(arrayToCheck) != null) {
+                return aiMoveChecker.diagonalCheck(arrayToCheck);
+            }
         }
         String randomNum = String.valueOf(Randomize.generate(0, 10));
         char randomABC = (char) Randomize.generate(65, 65 + this.board.length - 1);
