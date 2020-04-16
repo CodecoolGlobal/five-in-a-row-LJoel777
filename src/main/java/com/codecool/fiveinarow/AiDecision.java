@@ -69,6 +69,8 @@ public class AiDecision {
                     decisionArrayWithCoords[j] = row[i + j];
                     decisionArray[j] = row[i + j][0];
                 }
+                Arrays.sort(decisionArray);
+                Arrays.sort(arrayToCheck);
                 if (Arrays.equals(decisionArray, arrayToCheck)) {
                     return decisionArrayWithCoords;
                 }
