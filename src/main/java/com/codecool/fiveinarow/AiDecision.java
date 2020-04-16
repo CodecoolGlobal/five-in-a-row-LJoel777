@@ -14,20 +14,21 @@ public class AiDecision {
     }
 
     public int[] horizontalCheck() {
-        int[][][] boardWithCoords = new int[board.length][board[0].length][3];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                boardWithCoords[i][j] = new int[]{board[i][j], i, j};
+        int[][] perArrays = permutation();
+        for (int row = 0; row <= perArrays.length - 1; row++) {
+            int[] array = perArrays[row];
+            int[][][] boardWithCoords = new int[board.length][board[0].length][3];
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[0].length; j++) {
+                    boardWithCoords[i][j] = new int[]{board[i][j], i, j};
+                }
+            }
+            int[][] decisionArray = decisionChecker(boardWithCoords, array);
+            if (decisionArray != null) {
+                return getCoords(decisionArray);
             }
         }
-        int[][] decisionArray = decisionChecker(boardWithCoords, new int[]{1, 1, 0});
-        if (decisionArray != null) {
-            int[] coords = getCoords(decisionArray);
-            System.out.println(Arrays.toString(coords));
-            return coords;
-        }
         return null;
-        //return winChecker(board);
     }
 
     private int[] getCoords(int[][] decisionArray) {
@@ -39,10 +40,6 @@ public class AiDecision {
         return null;
     }
 
-    /*public boolean verticalCheck() {
-        int[][] transposedBoard = matrixTranspose(board);
-        return winChecker(transposedBoard);
-    }*/
 
     private int[][] decisionChecker(int[][][] newBoard, int[] arrayToCheck) {
         for (int[][] row : newBoard) {
@@ -54,7 +51,6 @@ public class AiDecision {
                     decisionArray[j] = row[i + j][0];
                 }
                 if (Arrays.equals(decisionArray, arrayToCheck)) {
-                    System.out.println(decisionArrayWithCoords);
                     return decisionArrayWithCoords;
                 }
             }
@@ -72,32 +68,16 @@ public class AiDecision {
         return transposedBoard;
     }
 
-    /*public boolean hasWonDiagonally() {
-        boolean[] booleanListForDiagonals = new boolean[board.length - (howMany - 1)];
-        for (int i = (howMany - 1); i < board.length; i++) {
-            int[][] boardOfDiagonals = new int[4][i + 1];
-            int[] rowTopLeft = new int[i + 1];
-            int[] rowTopRight = new int[i + 1];
-            int[] rowBottomLeft = new int[i + 1];
-            int[] rowBottomRight = new int[i + 1];
-
-            for (int j = 0; j < i + 1; j++) {
-                rowTopLeft[j] = board[i - j][j];
-                rowTopRight[j] = board[j][board.length - 1 - (i - j)];
-                rowBottomLeft[j] = board[board.length - 1 - (i - j)][j];
-                rowBottomRight[j] = board[board.length - 1 - j][board.length - 1 - (i - j)];
-            }
-            boardOfDiagonals[0] = rowTopLeft;
-            boardOfDiagonals[1] = rowTopRight;
-            boardOfDiagonals[2] = rowBottomLeft;
-            boardOfDiagonals[3] = rowBottomRight;
-            booleanListForDiagonals[i - (howMany - 1)] = winChecker(boardOfDiagonals);
-        }
-        for (boolean element : booleanListForDiagonals) {
-            if (element) {
-                return true;
+    public int[][] permutation() {
+        int[][] permArr = new int[howMany][howMany];
+        for (int j = 0; j <= howMany - 1; j++) {
+            for (int i = 0; i <= howMany - 1; i++) {
+                permArr[j][i] = 1;
+                if (i == j) {
+                    permArr[j][i] = 0;
+                }
             }
         }
-        return false;
-    }*/
+        return permArr;
+    }
 }

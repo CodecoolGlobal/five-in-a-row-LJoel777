@@ -8,12 +8,12 @@ public interface GameInterface {
     int[][] getBoard();
 
     int[] getMove(int player);
-    int[] getAiMove(int player);
+    int[] getAiMove(int player, int howMany);
     void mark(int player, int row, int col);
     boolean hasWon(int player, int howMany);
     boolean isFull();
     void printBoard();
     void printResult(int player);
-    void enableAi(int player);
+    void enableAi(int player, int howMany);
     void play(int howMany, int gameMode) throws InterruptedException;
 }
