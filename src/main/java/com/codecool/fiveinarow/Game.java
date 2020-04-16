@@ -10,7 +10,7 @@ public class Game implements GameInterface {
     private String filler;
     private String playerOneMark;
     private String playerTwoMark;
-    private int player = 2;
+    private int player = 1;
     public static final String ANSI_BRIGHT_RED = "\u001B[91m";
 
     public Game(int nRows, int nCols) {
