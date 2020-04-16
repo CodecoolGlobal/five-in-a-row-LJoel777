@@ -72,20 +72,6 @@ public class AiDecision {
         return null;
     }
 
-
-    /*public int[][] permutation() {
-        int[][] permArr = new int[howMany][howMany];
-        for (int j = 0; j <= howMany - 1; j++) {
-            for (int i = 0; i <= howMany - 1; i++) {
-                permArr[j][i] = 1;
-                if (i == j) {
-                    permArr[j][i] = 0;
-                }
-            }
-        }
-        return permArr;
-    }*/
-
     public int[] diagonalCheck(int[] inputArray) {
         for (int i = (howMany - 1); i < board.length; i++) {
             int[][][] boardOfDiagonals = new int[4][i + 1][3];

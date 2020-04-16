@@ -49,8 +49,6 @@ public class MoveChecker {
                 col = Integer.parseInt(String.valueOf(input[1]));
             return col - 1;
         } catch (NumberFormatException e) {
-            if (player == 1)
-                System.out.println("Invalid input!");
             return -1;
         }    }
 

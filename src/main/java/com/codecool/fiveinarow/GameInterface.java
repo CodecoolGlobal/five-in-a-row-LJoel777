@@ -3,7 +3,7 @@
 package com.codecool.fiveinarow;
 
 
-public interface GameInterface {
+public abstract interface GameInterface {
     void setBoard(int[][] board);
     int[][] getBoard();
 

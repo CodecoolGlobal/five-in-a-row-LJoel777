@@ -11,7 +11,6 @@ public class Game implements GameInterface {
     private String playerOneMark;
     private String playerTwoMark;
     private int player = 1;
-    public static final String ANSI_BRIGHT_RED = "\u001B[91m";
 
     public Game(int nRows, int nCols) {
         board = new int[nRows][nCols];
@@ -25,17 +24,15 @@ public class Game implements GameInterface {
         playerTwoMark = "\033[33;1;2mO\033[0m";
     }
 
-    @Override
     public int[][] getBoard() {
         return board;
     }
 
-    @Override
     public void setBoard(int[][] board) {
         this.board = board;
     }
 
-    @Override
+
     public int[] getMove(int player) {
         Scanner input = new Scanner(System.in);
         System.out.println("\n" + "Player" + player + "'s turn: ");
@@ -45,16 +42,19 @@ public class Game implements GameInterface {
         MoveChecker checker = new MoveChecker(move, this.board, player);
         boolean validMove = checker.validMove();
         if (!validMove) {
+            clear();
+            printBoard();
             System.out.println("Invalid input!");
             getMove(player);
         } else if (this.board[checker.getColRow()[0]][checker.getColRow()[1]] != 0) {
+            clear();
+            printBoard();
             System.out.println("Invalid input!");
             getMove(player);
         }
         return checker.getColRow();
     }
 
-    @Override
     public int[] getAiMove(int player, int howMany) {
         AiDecision aiMoveChecker = new AiDecision(player, howMany, board);
         for (int i = 1; i < howMany; i++) {
@@ -85,20 +85,17 @@ public class Game implements GameInterface {
         return checker.getColRow();
     }
 
-    @Override
     public void mark(int player, int row, int col) {
         if (this.board[row][col] == 0) {
             this.board[row][col] = player;
         }
     }
 
-    @Override
     public boolean hasWon(int player, int howMany) {
         WinCondition winCondition = new WinCondition(player, howMany, this.board);
         return winCondition.hasWonHorizontally() || winCondition.hasWonVertically() || winCondition.hasWonDiagonally();
     }
 
-    @Override
     public boolean isFull() {
         boolean isFull = false;
         boolean[] booleanArray = new boolean[this.board.length];
@@ -122,7 +119,6 @@ public class Game implements GameInterface {
         return isFull;
     }
 
-    @Override
     public void printBoard() {
         String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         System.out.print(" ");
@@ -155,21 +151,20 @@ public class Game implements GameInterface {
         }
     }
 
-    @Override
-    public void printResult(int player) {
-        if (player == 0)
+    public void printResult(int user) {
+        if (user == 0)
             System.out.println("It's tie!");
+        else if (user == 1)
+            System.out.println("X" + " won!");
         else
-            System.out.println("Player " + player + " won!");
+            System.out.println("O" + " won!");
     }
 
-    @Override
     public void enableAi(int player, int howMany) {
         int[] move = getAiMove(player, howMany);
         mark(player, move[0], move[1]);
     }
 
-    @Override
     public void play(int howMany, int gameMode) throws InterruptedException {
         if (gameMode == 1)
             this.humanVsHuman(howMany);
@@ -210,6 +205,7 @@ public class Game implements GameInterface {
             }
             if (isFull()) {
                 printResult(0);
+                restart();
                 break;
             }
         }

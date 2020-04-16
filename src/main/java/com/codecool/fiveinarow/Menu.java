@@ -12,14 +12,16 @@ public class Menu {
     public static void start() throws InterruptedException {
         clear();
         int size = checkSize();
+        clear();
         int howMany = howManny();
+        clear();
         int gameMode = gameMode();
+        clear();
         Game gomoku = new Game(size, size);
         gomoku.play(howMany, gameMode);
     }
 
     public static int checkSize() {
-        clear();
         Scanner input = new Scanner(System.in);
         System.out.println("Chose a board size (10, 15, 19): ");
         String size = input.next().toUpperCase();
@@ -27,12 +29,12 @@ public class Menu {
             System.exit(0);
         if (size.equals("15") || size.equals("19") || size.equals("10") || size.equals("5"))
             return Integer.parseInt(size);
+        clear();
         System.out.println("Invalid size! Please try again! (Valid size: 10, 15, 19)");
         return checkSize();
     }
 
     public static int howManny() {
-        clear();
         Scanner input = new Scanner(System.in);
         System.out.println("How many mark needed to win? (3, 5)");
         String size = input.next().toUpperCase();
@@ -41,12 +43,12 @@ public class Menu {
         if (size.equals("3") || size.equals("5")) {
             return Integer.parseInt(size);
         }
+        clear();
         System.out.println("Please try again! (3, 5)");
         return howManny();
     }
 
     public static int gameMode() {
-        clear();
         Scanner input = new Scanner(System.in);
         System.out.println("Chose game mode! (HUMAN VS HUMAN: 1, AI VS HUMAN: 2)");
         String gameMode = input.next().toUpperCase();
@@ -55,6 +57,7 @@ public class Menu {
         if (gameMode.equals("1") || gameMode.equals("2")) {
             return Integer.parseInt(gameMode);
         }
+        clear();
         System.out.println("Please try again! (HUMAN VS HUMAN: 1, AI VS HUMAN: 2)");
         return gameMode();
     }
