@@ -59,6 +59,10 @@ public class Game implements GameInterface {
         AiDecision aiMoveChecker = new AiDecision(player, howMany, board);
         if (aiMoveChecker.horizontalCheck() != null) {
             return aiMoveChecker.horizontalCheck();
+        } else if (aiMoveChecker.verticalCheck() != null) {
+            return aiMoveChecker.verticalCheck();
+        } else if (aiMoveChecker.diagonalCheck() != null) {
+            return aiMoveChecker.diagonalCheck();
         }
         String randomNum = String.valueOf(Randomize.generate(0, 10));
         char randomABC = (char) Randomize.generate(65, 65 + this.board.length - 1);
